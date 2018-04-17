@@ -74,20 +74,34 @@ class App extends React.Component {
     }
   }
 
+  renderSteps = () => {
+    const { step } = this.state;
+    return [
+      <Step number={1} isClickable={step > 1} isSelected={step === 1} onClick={this.handleTabClick}>Personal information</Step>,
+      <Step number={2} isClickable={step > 2} isSelected={step === 2} onClick={this.handleTabClick}>Card information</Step>,
+      <Step number={3} isClickable={false} isSelected={step === 3} onClick={this.handleTabClick}>Finish</Step>
+    ];
+  };
+
+  renderFormContent = () => {
+    const { step } = this.state;
+    return [
+      {step === 1 ? <Title>Персональная информация</Title> : ''},
+      {step === 2 ? <Title>Номер карты</Title> : ''},
+      {this.renderForm()}
+    ]
+  };
+
   render () {
     const { step } = this.state;
 
     return(
       <div className="container">
         <div className="tab-panel">
-          <Step number={1} isClickable={step > 1} isSelected={step === 1} onClick={this.handleTabClick}>Personal information</Step>
-          <Step number={2} isClickable={step > 2} isSelected={step === 2} onClick={this.handleTabClick}>Card information</Step>
-          <Step number={3} isSelected={step === 3} onClick={this.handleTabClick}>Finish</Step>
+          {this.renderSteps()}
         </div>
         <div className="form-content">
-          {step === 1 ? <Title>Персональная информация</Title> : ''}
-          {step === 2 ? <Title>Номер карты</Title> : ''}
-          {this.renderForm()}
+          {this.renderFormContent()}
         </div>
         <div className="button-panel">
           <button
